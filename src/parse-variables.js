@@ -3,10 +3,23 @@ import camelCase from 'lodash.camelcase';
 
 function constructSassString(variables) {
   const asVariables = variables
-    .map(variable => `$${variable.name}: ${variable.value};`)
-    .join('\n');
-  const asClasses = variables
-    .map(variable => `.${variable.name} { value: ${variable.value} }`)
+    .map(({ name, value }) => {
+      if (typeof value === 'string') {
+        return `$${name}: ${value};`;
+      } else {
+        return `$${name}: (${JSON.stringify(value).replace(/['"{}]/g, '')});`;
+      }
+    }).join('\n');
+  const asClasses = Array.prototype.concat(...variables
+    .map(({ name, value }) => {
+      if (typeof value === 'string') {
+        return `.${name} { value: ${value} }`;
+      } else {
+        return Object.keys(value).map(key =>
+          `.${name}.${key} { value: ${value[key]} }`
+        );
+      }
+    }))
     .join('\n');
 
   return `${asVariables}\n${asClasses}`;
@@ -18,23 +31,20 @@ export default function parseVariables(variables, opts = {}) {
     outputStyle: 'compact',
   }).css.toString();
 
-  const parsedVariables = result.split(/\n/)
+  return result.split(/\n/)
     .filter(line => line && line.length)
-    .map(variable => {
+    .reduce((objectBuilder, variable) => {
       const [, name, value] = /\.(.+) { value: (.+); }/.exec(variable);
-      const obj = {};
 
-      if (opts.preserveVariableNames) {
-        obj[name] = value;
-        return obj;
-      }
-
-      obj[camelCase(name)] = value;
-      return obj;
-    });
-
-  if (!parsedVariables.length) {
-    return {};
-  }
-  return Object.assign.apply(this, parsedVariables);
+      const assignDeep = (obj, key, innerValue) => {
+        const [, top, nested] = key.match(/^([^.]*)\.?(.*)/);
+        const getKey = k => opts.preserveVariableNames ? k : camelCase(k);
+        if (nested) {
+          return Object.assign({}, obj, { [getKey(top)]: assignDeep(obj[getKey(top)] || {}, nested, innerValue) });
+        } else {
+          return Object.assign({}, obj, { [getKey(top)]: innerValue });
+        }
+      };
+      return assignDeep(objectBuilder, name, value);
+    }, {});
 }

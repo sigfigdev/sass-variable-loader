@@ -1,5 +1,17 @@
 {
   "extends": "airbnb-base",
+  "rules": {
+    "no-else-return": "off",
+    "no-confusing-arrow": "off",
+    "max-len": [
+      1,
+      140
+    ],
+    "max-line-length": [
+      1,
+      140
+    ]
+  },
   "env": {
     "node": true,
     "es6": true

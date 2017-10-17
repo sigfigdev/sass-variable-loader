@@ -2,7 +2,9 @@
 
 > Parses your Sass variables and returns an object containing each variable camelCased and the end value as it would be in CSS.
 >
-> That means full support for Sass' lighten, darken, mix etc.
+> That means full support for Sass' lighten, darken, mix etc. 
+>
+> Import resolution is also supported
 
 **Input:**
 ``` scss
@@ -12,6 +14,7 @@ $gray-dark: lighten($gray-base, 20%) !default; // #333
 $gray: lighten($gray-base, 33.5%) !default; // #555
 $gray-light: lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter: lighten($gray-base, 93.5%) !default; // #eee
+$my-map: (gray-lighter: $gray-lighter, white: #FFF);
 ```
 
 **Result:**
@@ -22,7 +25,8 @@ $gray-lighter: lighten($gray-base, 93.5%) !default; // #eee
   grayDark: '#333333',
   gray: '#555555',
   grayLight: '#777777',
-  grayLighter: '#eeeeee'
+  grayLighter: '#eeeeee',
+  myMap: {grayLighter: #777777, white: #FFF}
 }
 ```
 
