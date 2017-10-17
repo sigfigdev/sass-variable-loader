@@ -1,3 +1,10 @@
 .DS_Store
 node_modules
 npm-debug.log
+
+.idea/*
+!.idea/runConfigurations/
+!.idea/sass-variable-loader.iml
+!.idea/scss-variable-loader.iml
+!.idea/codeStyleSettings.xml
+!.idea/vcs.xml

@@ -1,6 +1,6 @@
 {
   "name": "scss-variable-loader",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Scss variable loader module for webpack",
   "main": "dist/index.js",
   "scripts": {

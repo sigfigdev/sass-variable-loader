@@ -32,15 +32,15 @@ $my-map: (gray-lighter: $gray-lighter, white: #FFF);
 
 ## Installation
 
-`npm install --save-dev sass-variable-loader`
+`npm install --save-dev scss-variable-loader`
 
 ## Usage
 
 ``` javascript
-import variables from 'sass-variable-loader!./_variables.scss';
+import variables from 'scss-variable-loader!./_variables.scss';
 // => returns all the variables in _variables.scss as an object with each variable name camelCased
 ```
-**Note:** If you've already defined loaders for Sass files in the configuration, you can override the [loader order](https://webpack.github.io/docs/loaders.html#loader-order) by writing `!!sass-variable-loader!./_variables.scss` to disable all loaders specified in the configuration for that module request.
+**Note:** If you've already defined loaders for Sass files in the configuration, you can override the [loader order](https://webpack.github.io/docs/loaders.html#loader-order) by writing `!!scss-variable-loader!./_variables.scss` to disable all loaders specified in the configuration for that module request.
 
 ## Options
 
@@ -49,7 +49,7 @@ You can pass options to the loader via [query parameters](http://webpack.github.
 ### preserveVariableNames
 
 ``` javascript
-import variables from 'sass-variable-loader?preserveVariableNames!./_variables.scss';
+import variables from 'scss-variable-loader?preserveVariableNames!./_variables.scss';
 // => returns all the variables in _variables.scss as an object with each variable name left intact
 ```
 
